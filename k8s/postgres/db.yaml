@@ -1,0 +1,92 @@
+# Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-credentials
+  namespace: web
+type: Opaque
+stringData:
+  POSTGRES_USER: "postgresql"
+  POSTGRES_PASSWORD: "password"
+
+---
+# Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-initdb-config
+  namespace: web
+data:
+  pg-init-sql.sql: |
+    SELECT 'CREATE DATABASE energy_monitor OWNER postgresql'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'energy_monitor')\gexec
+
+---
+# StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+  namespace: web
+spec:
+  serviceName: postgresql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: "/data/postgres"
+              subPath: postgresql-data
+            - name: pg-config
+              mountPath: "/docker-entrypoint-initdb.d"
+      volumes:
+        - name: pg-config
+          configMap:
+            name: postgres-initdb-config
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  namespace: web
+spec:
+  type: ClusterIP
+  selector:
+    app: postgresql
+  ports:
+    - name: tcp
+      port: 5432
+      targetPort: 5432
