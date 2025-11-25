@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  width: 100%;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 3px 10px rgb(135, 135, 143, 25%);
+  background-color: #fff;
+  color: white;
+  padding: 15px 15px 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+header p {
+  margin: 0;
+  font-size: x-large;
+}
+
+header p a {
+  color: #202046;
+  text-decoration: none;
+}
+
+header p a:hover {
+  text-decoration: none;
+}
+
+header p a::after {
+  color: #202046;
+}
+
+.toggle-button {
+  display: none;
+  background: none;
+  border: none;
+  color: #202046;
+  font-size: 1.5rem;
+}
+
+.containment {
+  display: flex;
+  margin-top: 66px;
+  /* Height of the header */
+}
+
+#sidebar {
+  width: 250px;
+  /* background-color: #aeaed1; */
+  background-color: white;
+  /* color: white; */
+  color: #8081b4;
+  height: 100vh;
+  position: fixed;
+  top: 66px;
+  /* Height of the header */
+  left: 0;
+  /* padding: 10px; */
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+  box-shadow: 0 3px 10px rgb(135, 135, 143, 25%);
+}
+
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar ul .active-page {
+  background-color: #b4b5d8;
+}
+#sidebar ul li {
+  padding: 20px;
+}
+#sidebar ul li:hover {
+  background-color: #cecfe9;
+}
+
+#sidebar ul li a {
+  /* color: white; */
+  display: block;
+  color: black;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+#sidebar ul li a:hover {
+  text-decoration: none;
+}
+
+.menu-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+}
+
+.menu-wrapper div {
+  width: 200px;
+}
+
+main {
+  margin-left: 250px;
+  padding: 20px;
+  /* padding-left: 3rem;
+  padding-right: 3rem; */
+  flex-grow: 1;
+
+  position: relative;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 10px 15px 10px 15px;
+  }
+  header p {
+    font-size: medium;
+  }
+  .containment {
+    margin-top: 56px;
+  }
+  #sidebar {
+    padding: 0;
+    transform: translateX(-100%);
+    top: 56px;
+    width: 200px;
+    z-index: 3;
+  }
+  #sidebar ul li {
+    font-size: small;
+  }
+
+  #sidebar.active {
+    transform: translateX(0);
+  }
+
+  .menu-wrapper div {
+    width: 150px;
+  }
+
+  .toggle-button {
+    display: block;
+  }
+
+  main {
+    margin-left: 0;
+    padding-top: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}

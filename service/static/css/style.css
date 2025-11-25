@@ -1,0 +1,215 @@
+.nanum-gothic-regular {
+  font-family: "Nanum Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: #fcfcfc;
+  font-family: "Nanum Gothic";
+}
+
+.date-wrapper {
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+  background-color: white;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}
+.date-picker {
+  width: 20vw;
+  height: 1.5rem;
+  padding: 0.5rem;
+  border-width: 0 0 1px;
+  border-color: grey;
+  font-size: large;
+  text-align: center;
+  margin: 1rem;
+}
+
+.date-picker:focus {
+  outline-width: 0.8px;
+  outline-color: navy;
+}
+
+.date-btn {
+  width: 10vw;
+  height: 2rem;
+  margin-left: 1rem;
+  color: white;
+  background-color: #202046;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.date-btn:hover {
+  color: black;
+  background-color: white;
+  border-color: rgb(21, 21, 109);
+}
+
+.subtitle {
+  position: relative;
+  padding: 40px;
+  font-size: 1.5rem;
+  color: #333;
+  z-index: 1;
+  margin: -20px;
+}
+
+.background-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #8081b4;
+  z-index: -1;
+  /* margin: 0 -3rem 0 -3rem; */
+}
+
+.top-graph {
+  position: relative;
+  z-index: 2;
+  margin-top: -60px;
+}
+
+.doughnut-box {
+  padding: 1rem;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.doughnut-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+}
+.two-doughnut-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+}
+
+.two-doughnut {
+  padding: 1rem;
+  width: 20vw;
+  background-color: white;
+}
+
+.doughnut {
+  padding: 1rem;
+  width: 15vw;
+  background-color: white;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: rgb(243, 243, 243);
+  margin-top: 2rem;
+}
+
+.line-chart-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+}
+
+.line-chart-wrapper {
+  padding: 2rem;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  margin-top: 1rem;
+  height: 40vh;
+  background-color: white;
+}
+
+.bar-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+}
+
+.bar {
+  padding: 1rem;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  width: 95%;
+  text-align: center;
+  background-color: white;
+}
+
+.reset-btn {
+  font-size: small;
+  padding: 0 0.5rem 0 0.5rem;
+  height: 1.8rem;
+  background-color: white;
+  color: black;
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+}
+
+.footer {
+  margin-top: 2rem;
+}
+
+.footer div {
+  text-align: center;
+  color: rgb(201, 201, 201);
+  font-size: small;
+}
+
+thead {
+  background-color: #202046;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .date-picker {
+    width: 25vw;
+    font-size: small;
+    margin: 0;
+  }
+  .date-btn {
+    width: 20vw;
+  }
+  .subtitle {
+    margin: 0 -0.5rem 0 -0.5rem;
+  }
+  .doughnut-wrapper {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .doughnut {
+    width: 40vw;
+    padding: 0.5rem;
+  }
+  .two-doughnut {
+    width: 40vw;
+    padding: 0.5rem;
+  }
+  .line-chart-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  .line-chart-wrapper {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .bar-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .bar {
+    /* width: 90vw; */
+    margin-top: 0.5rem;
+  }
+}
