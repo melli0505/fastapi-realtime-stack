@@ -1,0 +1,68 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  namespace: web
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      name: server
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: mysterias/web-service:latest
+          env:
+            - name: db_user
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_USER
+            - name: db_password
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_PASSWORD
+            - name: db_host
+              value: "postgresql"
+            - name: db_port
+              value: "5432"
+            - name: db_name
+              value: "energy_monitor"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 8080
+              name: server
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-svc
+  namespace: web
+spec:
+  type: ClusterIP
+  selector:
+    app: server
+  ports:
+    - name: tcp-web
+      port: 80
+      targetPort: 8080
