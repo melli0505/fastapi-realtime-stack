@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="static/css/sidebar.css" rel="stylesheet" />
+    <link href="static/css/style.css" rel="stylesheet" />
+    <style>
+        .grid-row-wrapper {
+            display: grid;
+            grid-template-rows: 3fr 1fr;
+        }
+
+        .grid-col-wrapper {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+
+        .grid-temp-wrapper {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            margin: 1rem 0 0 1rem;
+            height: 98%;
+        }
+
+        .line-chart-wrapper {
+            height: 98%;
+        }
+
+        .temp-wrapper {
+            border: 1px solid gainsboro;
+            border-radius: 5px;
+            background-color: white;
+            padding: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-doughnut-wrapper {
+            width: 15vw;
+        }
+
+        .grid-pue-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            margin-top: 0.5rem;
+        }
+
+        .main-pue-wrapper {
+            border: 1px solid gainsboro;
+            border-radius: 5px;
+            background-color: white;
+            padding: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-row-wrapper {
+                grid-template-rows: 1fr;
+            }
+
+            .grid-col-wrapper {
+                grid-template-columns: 1fr;
+                grid-template-rows: 2fr 1fr;
+            }
+
+            .grid-temp-wrapper {
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr 1fr;
+                margin: 0;
+            }
+
+            .temp-wrapper {
+                border: 1px solid gainsboro;
+                border-radius: 5px;
+                background-color: white;
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .main-doughnut-wrapper {
+                width: 100%;
+                height: 100%;
+            }
+
+            .grid-pue-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .main-pue-wrapper {
+                border: 1px solid gainsboro;
+                border-radius: 5px;
+                background-color: white;
+                padding: 2rem;
+                margin-top: 0.5rem;
+            }
+
+        }
+    </style>
+</head>
+
+<body style="height: 100%;">
+    <header id="navgation-bar">
+        <button id="toggleSidebar" class="toggle-button"><i class="bi bi-list"></i></button>
+        <p><a href="/"><i class="bi bi-circle-square" style="margin-right: 10px;"></i>Containment Monitoring</a></p>
+    </header>
+
+    <div id="sidebar-import" class="containment">
+        <nav id="sidebar">
+            <ul>
+                <li class="active-page">
+                    <a href="/">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-window-sidebar" style="margin-right: 5px;"></i>
+                            <div>Dashboard</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/energy">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-lightning-fill" style="margin-right: 5px;"></i>
+                            <div>Energy Consumption</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/containment">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-thermometer-snow" style="margin-right: 5px;"></i>
+                            <div>Containment Temperature</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/server">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-hdd-rack" style="margin-right: 5px;"></i>
+                            <div>Server Temperature</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/cooler">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-snow" style="margin-right: 5px;"></i>
+                            <div>
+                                Coolant Temperature
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/hardware">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-hammer" style="margin-right: 5px;"></i>
+                            <div>Hardware Info</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/controller">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-stars" style="margin-right: 5px;"></i>
+                            <div>Controller</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+        <div class="subtitle">
+            <h3 style="color: white;">Dashboard</h3>
+            <div style=" font-size: medium; color: white;">
+                <p>> See Overview</p>
+                <br>
+                <br>
+            </div>
+            <div class="background-gradient"></div>
+        </div>
+        <div id="grpahs" class="top-graph">
+            <div class="grid-row-wrapper">
+                <div class="grid-col-wrapper">
+                    <div class="line-chart-wrapper">
+                        <p><b>Containment PUE per Day</b></p>
+                        <canvas id="containmentPUEday" style="width: 100%; height: 90%;"></canvas>
+                    </div>
+                    <div class="grid-temp-wrapper">
+                        <div class="temp-wrapper">
+                            <p><b>Containment 1</b><br>Recent Temperature</p>
+                            <div class="main-doughnut-wrapper"><canvas id="containment1"></canvas></div>
+                        </div>
+                        <div class="temp-wrapper">
+                            <p><b>Containment 2</b><br>Recent Temperature</p>
+                            <div class="main-doughnut-wrapper"><canvas id="containment2"></canvas></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid-pue-wrapper">
+                    <div class="main-pue-wrapper" style="margin-right: 0.5rem; border-top: 5px solid #ababe4;">
+                        <p style="font-size: medium;">
+                            <b>Today Energy Consumption</b>
+                        </p>
+                        <p style="font-size: 3rem; font-weight: 700;"><span id="con1today"></span>
+                            {% if data.containment1[0] %}
+                            {{data.containment1[0]}}
+                            {% else %}
+                            0
+                            {% endif %} kW</p>
+                        <p style="font-size: 1.5rem; font-weight: 600; color:#ababe4">Containment 1</p>
+                    </div>
+                    <div class="main-pue-wrapper"
+                        style="margin-left: 0.5rem; margin-right: 0.5rem; border-top: 5px solid #ababe4;">
+                        <p style="font-size: medium;">
+                            <b>Yesterday Energy Consumption</b>
+                        </p>
+                        <p style="font-size: 3rem; font-weight: 700;"><span id="con1yesterday"></span>
+                            {% if data.containment1[1] %}
+                            {{data.containment1[1]}}
+                            {% else %}
+                            0
+                            {% endif %} kW</p>
+                        <p style="font-size: 1.5rem; font-weight: 600; color:#ababe4">Containment 1</p>
+                    </div>
+                    <div class="main-pue-wrapper"
+                        style="margin-left: 0.5rem; margin-right: 0.5rem; border-top: 5px solid #756bea;">
+                        <p style="font-size: medium;">
+                            <b>Today Energy Consumption</b>
+                        </p>
+                        <p style="font-size: 3rem; font-weight: 700;"><span id="con2today"></span>
+                            {% if data.containment2[0] %}
+                            {{data.containment2[0]}}
+                            {% else %}
+                            0
+                            {% endif %} kW</p>
+                        <p style="font-size: 1.5rem; font-weight: 600; color:#756bea">Containment 2</p>
+                    </div>
+                    <div class="main-pue-wrapper"
+                        style="margin-left: 0.5rem; border: 1px solid gainsboro; border-radius: 5px; border-top: 5px solid #756bea; background-color: white; padding: 2rem; margin-top: 0.5rem;">
+                        <p style="font-size: medium;">
+                            <b>Yesterday Energy Consumption</b>
+                        </p>
+                        <p style="font-size: 3rem; font-weight: 700;"><span id="con2yesterday"></span>
+                            {% if data.containment2[1] %}
+                            {{data.containment2[1]}}
+                            {% else %}
+                            0
+                            {% endif %} kW</p>
+                        <p style="font-size: 1.5rem; font-weight: 600; color:#756bea">Containment 2</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div>
+
+            </div>
+            <footer class="footer">
+                <hr>
+                <div>
+                    <p>
+                        <br> @Copyright KETI 한국전자기술연구원<br>
+                        <i class="bi bi-github"></i> melli0505
+                    </p>
+                </div>
+            </footer>
+    </main>
+
+    <script type="text/javascript" src="static/js/resources/jquery.min.js"></script>
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    >
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <!-- custom js -->
+    <script src="static/js/index.js"></script>
+
+    <script>
+        const conPUEdayChartx = document.getElementById('containmentPUEday');
+        const containment1Chartx = document.getElementById('containment1');
+        const containment2Chartx = document.getElementById('containment2');
+
+        var conPUEdayChart = new Chart(conPUEdayChartx, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'containment 1',
+                    data: [],
+                    borderColor: 'rgb(157, 157, 224)',
+                    borderWidth: 1,
+                    backgroundColor: 'rgb(157, 157, 224, 25%)',
+                    fill: "start"
+                },
+                {
+                    label: 'containment 2',
+                    data: [],
+                    borderColor: 'rgb(117, 107, 234)',
+                    borderWidth: 1,
+                    backgroundColor: 'rgb(117, 107, 234, 25%)',
+                    fill: "start"
+                },]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.4
+                    }
+                },
+
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        mode: 'x',
+                        intersect: false
+                    },
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        });
+        var containment1Chart = new Chart(containment1Chartx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    // 'Temperature',
+                ],
+                datasets: [{
+                    label: 'Recent',
+                    data: [],
+                    backgroundColor: [
+                        'rgb(157, 157, 224)',
+                        'rgb(243, 255, 227)'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                plugins: {
+                }
+            },
+            plugins: [{
+                id: 'text',
+                beforeDraw: function (chart, a, b) {
+                    var width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = (height / 120).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    var text = (Math.round(chart.data.datasets[0].data * 10) / 10) + "°C",
+                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = height / 1.9;
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }]
+        })
+        var containment2Chart = new Chart(containment2Chartx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    // 'Temperature',
+                ],
+                datasets: [{
+                    label: 'Recent',
+                    data: [],
+                    backgroundColor: [
+                        'rgb(117, 107, 234)',
+                        'rgb(255, 250, 229)',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                plugins: {
+                }
+            },
+            plugins: [{
+                id: 'text',
+                beforeDraw: function (chart, a, b) {
+                    var width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = (height / 120).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    var text = (Math.round(chart.data.datasets[0].data * 10) / 10) + "°C",
+                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = height / 1.9;
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }]
+        })
+
+        var recent_dates = [];
+        var today = new Date();
+        var offset = today.getTimezoneOffset() * 60000;
+
+        $.ajax({
+            url: '/api/containment/pue-recent',
+            method: 'GET',
+            success: (data) => {
+                data.forEach(el => {
+                    var date = new Date(el['date']);
+                    if (el['containment_id'] == 1) {
+                        conPUEdayChart.data.datasets[0].data.push({ x: new Date(date.toDateString()), y: (el['last_energy'] - el['first_energy']) });
+                    }
+                    else {
+                        conPUEdayChart.data.datasets[1].data.push({ x: new Date(date.toDateString()), y: (el['last_energy'] - el['first_energy']) });
+                    }
+                });
+                console.log(data);
+                conPUEdayChart.update();
+            },
+            error: (e) => {
+                console.log(e);
+            }
+        });
+
+        $.ajax({
+            url: '/api/containment/recent-temp?start=' + today.toISOString(),
+            method: 'GET',
+            success: (data) => {
+                var con1 = -1;
+                var con2 = -1;
+                data.forEach(el => {
+                    if (el['containment_id'] == 1) {
+                        con1 = el['temperature'];
+                    }
+                    else {
+                        con2 = el['temperature'];
+                    }
+                });
+                console.log(con1, con2)
+                containment1Chart.data.datasets[0].data = [con1];
+                containment2Chart.data.datasets[0].data = [con2];
+                containment1Chart.update();
+                containment2Chart.update();
+            },
+            error: (e) => {
+                console.log(e);
+            }
+        });
+        var con1 = [0, 0];
+        var con2 = [0, 0];
+        // $.ajax({
+        //     url: "/api/data/containment-pue-compare",
+        //     method: "GET",
+        //     success: (data) => {
+        //         data.forEach((el) => {
+        //             if (el["containment_id"] == 1) {
+        //                 if (el["date"] == today) con1[1] = el["energy_difference"];
+        //                 else con1[0] = el["energy_difference"];
+        //             } else {
+        //                 if (el["date"] == today) con2[1] = el["energy_difference"];
+        //                 else con2[0] = el["energy_difference"];
+        //             }
+        //         });
+        //         console.log(con1, con2);
+        //         $("#con1yesterday")[0].innerHTML = Math.round(con1[1] * 100) / 100;
+        //         $("#con1today")[0].innerHTML = Math.round(con1[0] * 100) / 100;
+        //         $("#con2yesterday")[0].innerHTML = Math.round(con2[1] * 100) / 100;
+        //         $("#con2today")[0].innerHTML = Math.round(con2[0] * 100) / 100;
+        //     },
+        // });
+    </script>
+</body>
+
+</html>

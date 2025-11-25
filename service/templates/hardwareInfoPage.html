@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="static/css/sidebar.css" rel="stylesheet" />
+    <link href="static/css/style.css" rel="stylesheet" />
+    <style>
+        section {}
+
+        .matrix-wrapper {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            /* border: 1px solid silver; */
+            box-shadow: 0 2px 9px rgb(192, 192, 192, 50%);
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        .table {
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="navgation-bar">
+        <button id="toggleSidebar" class="toggle-button"><i class="bi bi-list"></i></button>
+        <p><a href="/"><i class="bi bi-circle-square" style="margin-right: 10px;"></i>Containment Monitoring</a></p>
+    </header>
+    <div id="sidebar-import" class="containment">
+        <nav id="sidebar">
+            <ul>
+                <li>
+                    <a href="/">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-window-sidebar" style="margin-right: 5px;"></i>
+                            <div>Dashboard</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/energy">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-lightning-fill" style="margin-right: 5px;"></i>
+                            <div>Energy Consumption</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/containment">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-thermometer-snow" style="margin-right: 5px;"></i>
+                            <div>Containment Temperature</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/server">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-hdd-rack" style="margin-right: 5px;"></i>
+                            <div>Server Temperature</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/cooler">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-snow" style="margin-right: 5px;"></i>
+                            <div>
+                                Coolant Temperature
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="active-page">
+                    <a href="/hardware">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-hammer" style="margin-right: 5px;"></i>
+                            <div>Hardware Info</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/controller">
+                        <div class="menu-wrapper">
+                            <i class="bi bi-stars" style="margin-right: 5px;"></i>
+                            <div>Controller</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <main>
+
+        <div class="subtitle">
+            <h3 style="color: white;">Hardware Information</h3>
+            <div style=" font-size: medium; color: white;">
+                <p>> Making a inquiry of Hardware information</p>
+                <br>
+            </div>
+            <div class="background-gradient"></div>
+        </div>
+        <section id="containments" class="top-graph">
+            <div class="matrix-wrapper">
+                <h3>Containments</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">name</th>
+                        </tr>
+                    </thead>
+                    {% if containments %}
+                    <tbody>
+                        {% for containment in containments %}
+                        <tr>
+                            <th scope="row">{{containment.id}}</th>
+                            <td>{{containment.name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+
+        <section id="racks">
+            <div class="matrix-wrapper">
+                <h3>Racks</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">name</th>
+                            <th scope="col">Containment_id</th>
+                        </tr>
+                    </thead>
+                    {% if racks %}
+                    <tbody>
+                        {% for rack in racks %}
+                        <tr>
+                            <th scope="row">{{rack.id}}</th>
+                            <td>{{rack.name}}</td>
+                            <td>{{rack.containment_id}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+
+
+        <section id="servers">
+            <div class="matrix-wrapper">
+                <h3>Servers</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">name</th>
+                            <th scope="col">rack_id</th>
+                        </tr>
+                    </thead>
+                    {% if servers %}
+                    <tbody>
+                        {% for server in servers %}
+                        <tr>
+                            <th scope="row">{{server.id}}</th>
+                            <td>{{server.name}}</td>
+                            <td>{{server.rack_id}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+        <footer class="footer">
+            <hr>
+            <div>
+                <p>
+                    <br> @Copyright KETI 한국전자기술연구원<br>
+                    <i class="bi bi-github"></i> melli0505
+                </p>
+            </div>
+        </footer>
+    </main>
+    <script type="text/javascript" src="static/js/resources/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="static/js/resources/bootstrap.js"></script>
+    <script src="static/js/resources/datepicker.js"></script>
+    <script src="static/js/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Header and Sidebar</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .toggle-button {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .containment {
+            display: flex;
+            margin-top: 60px;
+            /* Height of the header */
+        }
+
+        nav {
+            width: 200px;
+            background-color: #444;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            /* Height of the header */
+            left: 0;
+            padding: 10px;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(0);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 15px 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            margin-left: 200px;
+            padding: 20px;
+            flex-grow: 1;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .subtitle {
+            position: relative;
+            padding: 40px 20px;
+            font-size: 1.5rem;
+            color: #333;
+            z-index: 1;
+        }
+
+        .background-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: lightblue;
+            z-index: -1;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+            width: 30rem;
+
+            margin-top: -20px;
+            /* 겹치기 위해 위로 마진 설정 */
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                transform: translateX(-100%);
+            }
+
+            nav.active {
+                transform: translateX(0);
+            }
+
+            .toggle-button {
+                display: block;
+            }
+
+            main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>My Website</h1>
+        <button id="toggleSidebar" class="toggle-button">☰</button>
+    </header>
+    <div class="containment">
+        <nav id="sidebar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="subtitle">
+                This is a subtitle
+                <div class="background-gradient"></div>
+            </div>
+            <div class="box">Box 1</div>
+            <div class="box">Box 2</div>
+            <div class="box">Box 3</div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+<script>
+    document.getElementById('toggleSidebar').addEventListener('click', function () {
+        document.getElementById('sidebar').classList.toggle('active');
+    });</script>
+
+</html>
